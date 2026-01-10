@@ -1,34 +1,42 @@
 {
-  "name": "smart-billing",
+  "name": "ai-smart-billing-backend",
   "version": "1.0.0",
-  "description": "Smart Billing and Payments",
-  "homepage": "https://github.com/Muz1058/Smart-billing#readme",
-  "bugs": {
-    "url": "https://github.com/Muz1058/Smart-billing/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Muz1058/Smart-billing.git"
-  },
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
-  "main": "index.js",
+  "description": "Smart Billing & Payment Platform - Backend API",
+  "main": "src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "seed": "node seed/seed.js"
   },
+  "keywords": [
+    "express",
+    "mongodb",
+    "billing",
+    "payments"
+  ],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
-    "bcrypt": "^6.0.0",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.2.1",
-    "helmet": "^8.1.0",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.1.2",
-    "morgan": "^1.10.1",
-    "nodemon": "^3.1.11",
-    "prettier": "^3.7.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^8.2.1",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.4",
+    "morgan": "^1.10.0",
     "slugify": "^1.6.6",
-    "uuid": "^13.0.0"
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-node": "^11.1.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.7.4"
   }
 }

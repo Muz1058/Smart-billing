@@ -1,0 +1,17 @@
+module.exports = {
+  env: {
+    commonjs: true,
+    es2021: true,
+    node: true,
+  },
+  extends: ["eslint:recommended", "plugin:node/recommended", "prettier"],
+  parserOptions: {
+    ecmaVersion: "latest",
+  },
+  rules: {
+    "no-console": "off",
+    "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "node/no-unsupported-features/es-syntax": "off",
+    "node/no-missing-import": "off",
+  },
+};

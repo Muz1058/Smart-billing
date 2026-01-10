@@ -1,56 +1,33 @@
-"use strict"
+"use strict";
 
-const mongoose=require("mongoose")
-const bcrypt=require("bcrypt")
-const jwt=require("jsonwebtoken")
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
-const userSchema=new mongoose.Schema(
-    {
-        name:{
-            type:String,
-            required:true,
-            minLength:5,
-            trim:true,
-        },
-        email:{
-            type:String,
-            required:true,
-            unique:true,    
-            trim:true,
-            match:/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/           
+const UserSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    password: { type: String, required: true, select: false },
+    role: { type: String, enum: ["admin", "user"], default: "user" },
+    settings: {
+      type: Map,
+      of: String,
+      default: {}
+    }
+  },
+  { timestamps: true }
+);
 
-        },
-        password:{
-            type:String,
-            required:[true,"Password is required"],
-            minLength:8,
-            match:[/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, "Password must contain at least one letter and one number"],
-            select:false,
+UserSchema.pre("save", async function hashPassword(next) {
+  if (!this.isModified("password")) return next();
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
 
-        },
-        refreshToken:{
-            type:String,
-            select:false,
-        }
-    },
-    {timestamps:true}
+UserSchema.methods.comparePassword = async function comparePassword(candidate) {
+  return bcrypt.compare(candidate, this.password);
+};
 
-)
+module.exports = mongoose.model("User", UserSchema);
 
-userSchema.pre("save",async function(next) {
-    if(!this.isModified("password")) return next()
-    this.password=await bcrypt.hash(this.password,10)
-    next()
-})
-
-userSchema.methods.isPasswordCorrect=async function(password){
-    return await bcrypt.compare(password,this.password)
-}
-
-userSchema.generateAccessToken=function(){
-    return jwt.sign(
-        {id:this._id},
-        process.env.ACCESS_TOKEN_SECRET,
-        {expiresIn:"15m"}
-    )
-}
