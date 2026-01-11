@@ -29,14 +29,6 @@ src/
 4) Run dev server: `npm run dev` (default port 5000)  
    - Healthcheck: `GET /health`
 
-## Environment Variables (`.env`)
-- `PORT=5000`
-- `MONGODB_URI=mongodb://localhost:27017/ai_smart_billing`
-- `JWT_SECRET=supersecretjwt`
-- `JWT_EXPIRES_IN=1d`
-- `EASYPaisa_SECRET=easypaisa_checksum_secret`
-- `JAZZCASH_SECRET=jazzcash_checksum_secret`
-- `LOG_LEVEL=info`
 
 ## Auth & Roles
 - Register/Login: `/api/auth/register`, `/api/auth/login`
@@ -76,9 +68,6 @@ curl -s -X POST http://localhost:5000/api/payments/easypaisa/callback \
   -d "{\"transactionId\":\"$TXN\",\"status\":\"SUCCESS\",\"checksum\":\"$CS\",\"invoiceId\":\"$INV\",\"paymentMethod\":\"EASYPaisa\"}"
 ```
 
-## Payment Simulation Notes
-- Each initiate call returns `transactionId` and `checksum` (HMAC-SHA256).
-- Callback verifies checksum per gateway secret; only then marks payment and sets invoice to `PAID` on success.
 
 ## Scripts
 - `npm run dev` – start with nodemon
